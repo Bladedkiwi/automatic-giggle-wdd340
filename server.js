@@ -29,6 +29,6 @@ app.set("view engine", "ejs")
 /* ***********************
  * Log statement to confirm server operation
  *************************/
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     console.log(`app listening on ${process.env.HOST}:${process.env.PORT}`)
 })

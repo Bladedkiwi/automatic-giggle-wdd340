@@ -1,0 +1,11 @@
+footer {
+  p {
+    font-size: x-small;
+    padding: .4rem;
+  }
+  @include MQ(L) {
+    p {
+      font-size: smaller;
+    }
+  }
+}

@@ -1,0 +1,116 @@
+@import 'variables';
+
+@mixin MQ($canvas) {
+  @if $canvas == M {
+    @media only screen and (min-width: $M) {
+      @content;
+    }
+  } @else if $canvas == L {
+    @media only screen and (min-width: $L) {
+      @content;
+    }
+  }
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@each $heading in $headings {
+  #{$heading} {
+    font-size: $font-base * $add-scale;
+    @include MQ(M) {
+      font-size: calc($font-base + 2vw);
+    }
+  }
+  $add-scale: $add-scale + 0.4;
+
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: $brown;
+  color: $white;
+
+  #wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1 {
+    padding: .8rem 0.3rem .8rem;
+    margin: .5rem 0 .3rem;
+  }
+
+  ul {
+    padding: .4rem .5rem .5rem;
+    background: $gray;
+  }
+
+  p, li {
+    padding: 0.2rem .2rem .2rem;
+    font-size: .9rem;
+  }
+
+  figure {
+    display: block;
+    margin: 1em auto;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @include MQ(M) {
+    background: url('../../images/site/checkerboard.jpg');
+
+    #wrapper {
+      margin: 1rem 2.5rem 2.5rem;
+      background: $brown;
+      border: 5px solid $black;
+      padding: .3rem;
+    }
+
+    p, li, a, button {
+      font-size: calc(.9rem + 0.4vw);
+    }
+    ul {
+      padding: .5rem .8rem .5rem;
+    }
+    p {
+      padding: 1rem;
+    }
+    h1, .siteName {
+      padding: 1rem * .9;
+
+    }
+  }
+  @include MQ(L) {
+    #wrapper {
+      margin: 1rem 3.5rem 3.5rem;
+    }
+    p, li, a {
+      font-size: calc(1rem + 0.8vw);
+    }
+    h1, {
+      padding: calc(1rem + 0.8vw);
+    }
+  }
+}

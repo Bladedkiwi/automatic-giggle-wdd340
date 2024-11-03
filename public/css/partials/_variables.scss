@@ -1,0 +1,24 @@
+//colors
+$black: #19191c;
+$pink: #af5fa6;
+$white: #ffffff;
+// In case gradient doesn't work.
+$brown: rgb(24,0,255);
+$brown: linear-gradient(180deg, rgba(24,0,255,1) 0%, rgba(0,0,0,1) 0%, rgba(89,73,73,1) 100%, rgba(89,73,73,1) 100%);
+$gray: rgb(255,255,255);
+$gray: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(90,87,87,1) 90%);
+
+$shad: 0 0 10px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05);
+
+//font sizes
+$headings: h6, h5, h4, h3, h2, h1;
+$font-base: .6rem;
+$add-scale: 1;
+
+//font families:
+$text: "Megrim", cursive;
+$title: "David Libre", serif;
+
+//breakpoints
+$M: 600px;
+$L: 1000px;

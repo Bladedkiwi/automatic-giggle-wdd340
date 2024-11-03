@@ -1,0 +1,105 @@
+.car {
+  display: block;
+  flex-direction: column;
+
+  &--grid {
+    display: flex;
+    flex-direction: column;
+    @include MQ(M) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "upgrade review"
+    }
+
+    justify-content: center;
+  }
+
+/****REVIEW****/
+  &__review {
+    grid-area: review;
+    margin: 1rem;
+
+    &--title {
+      font-weight: bold;
+      margin-left: -2px;
+
+    }
+    &--list {
+      background: transparent;
+      list-style: inherit;
+      li {
+        padding: .4em;
+
+      }
+    }
+  }
+/****TYPE****/
+  &__type {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+
+    &--img {
+      justify-self: center;
+    }
+    &--info {
+      position:  absolute;
+      opacity: .9;
+      background: $black;
+      padding: .5rem;
+      @include MQ(M) {
+        left: 10%;
+
+      }
+
+      h3 {
+        font-weight: bold;
+      }
+      ul {
+        background: transparent;
+        li{
+          padding: .1em;
+        }
+      }
+      button {
+        background: $white;
+        margin: .5rem;
+      }
+    }
+  }
+/****UPGRADE****/
+  &__upgrade {
+    grid-area: upgrade;
+    margin: 1rem;
+   &--title {
+     font-weight: bold;
+    }
+    &--list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 0.5em;
+        figure{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          picture {
+            width: 5rem;
+            height:5.1rem;
+            display: flex;
+            background: $white;
+            align-items: center;
+            justify-content: center;
+            border: 6px solid $black;
+
+          }
+
+          figcaption {
+              margin-top: .5rem;
+          }
+        }
+    }
+  }
+}

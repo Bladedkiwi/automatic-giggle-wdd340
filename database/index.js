@@ -15,9 +15,7 @@ if (process.env.NODE_ENV === 'development') {
     module.exports = {
         async query(text, params) {
             try {
-                const res = await pool.query(text, params)
-                console.log("Executed Query", {text})
-                return res
+                return await pool.query(text, params)
             } catch (err) {
                 console.error('Error in Query', {text})
                 throw err

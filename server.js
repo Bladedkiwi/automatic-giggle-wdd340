@@ -10,6 +10,7 @@ const express = require("express");
 const app = express();
 const expressLayouts = require('express-ejs-layouts')
 const baseController = require('./controllers/base_controller');
+const invRoute = require('./routes/inv_route');
 
 /* ***********************
  * Routes
@@ -24,6 +25,7 @@ app.set("view engine", "ejs")
      * <p>{title: "Home"} Treated like a variable with supplies the value that the "head" partial file expects to receive. This gets passed to the view</p>
      */
     .get('/', baseController.buildHome)
+    .use('/inv', invRoute)
 
 /* ***********************
  * Log statement to confirm server operation

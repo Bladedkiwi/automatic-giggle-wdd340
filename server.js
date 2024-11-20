@@ -9,6 +9,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const expressLayouts = require('express-ejs-layouts')
+const baseController = require('./controllers/base_controller');
 
 /* ***********************
  * Routes
@@ -22,9 +23,7 @@ app.set("view engine", "ejs")
      * <p>render() retrieves the specified view which is index in this case and sends it back to the browser</p>
      * <p>{title: "Home"} Treated like a variable with supplies the value that the "head" partial file expects to receive. This gets passed to the view</p>
      */
-    .get('/', (req, res) => {
-      res.render('index', {title: "Home"})})
-
+    .get('/', baseController.buildHome)
 
 /* ***********************
  * Log statement to confirm server operation

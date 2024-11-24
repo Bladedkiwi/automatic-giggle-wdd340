@@ -11,6 +11,9 @@ const app = express();
 const expressLayouts = require('express-ejs-layouts')
 const baseController = require('./controllers/base_controller');
 const invRoute = require('./routes/inv_route');
+const utilities = require('./utilities');
+const utities = require("./utilities");
+
 
 /* ***********************
  * Routes
@@ -24,8 +27,29 @@ app.set("view engine", "ejs")
      * <p>render() retrieves the specified view which is index in this case and sends it back to the browser</p>
      * <p>{title: "Home"} Treated like a variable with supplies the value that the "head" partial file expects to receive. This gets passed to the view</p>
      */
-    .get('/', baseController.buildHome)
+    .get('/', utilities.handleErrors(baseController.buildHome))
     .use('/inv', invRoute)
+    /**
+     * FILE NOT FOUND Route
+     * Must be the last route
+     */
+    .use((req, res, next) => {
+        const errNothing = new Error('Sorry, this page has escaped existence.');
+        errNothing.status = 404;
+        next(errNothing);
+    })
+    .use(async (err, req, res, next) => {
+        let nav = await utities.getNav();
+        console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+        err.stack = err.stack || '';
+        res.render("errors/error", {
+            title: err.status || 'Server Error',
+            message: err.status === 404 ? err.message : 'Oh no! There was a crash. Maybe try a different route.',
+            status: err.status || 500,
+            // stack: err.stack
+            nav
+        })
+    })
 
 /* ***********************
  * Log statement to confirm server operation

@@ -12,7 +12,9 @@ const expressLayouts = require('express-ejs-layouts')
 const baseController = require('./controllers/base_controller');
 const invRoute = require('./routes/inv_route');
 const utilities = require('./utilities');
-const utities = require("./utilities");
+
+// Test 500 Error Route controller
+const errRoute = require('./routes/err_route');
 
 
 /* ***********************
@@ -28,7 +30,10 @@ app.set("view engine", "ejs")
      * <p>{title: "Home"} Treated like a variable with supplies the value that the "head" partial file expects to receive. This gets passed to the view</p>
      */
     .get('/', utilities.handleErrors(baseController.buildHome))
-    .use('/inv', invRoute)
+    .use('/inv', utilities.handleErrors(invRoute))
+    // Testing 500 error Route
+    .use('/test', utilities.handleErrors(errRoute))
+
     /**
      * FILE NOT FOUND Route
      * Must be the last route
@@ -39,7 +44,7 @@ app.set("view engine", "ejs")
         next(errNothing);
     })
     .use(async (err, req, res, next) => {
-        let nav = await utities.getNav();
+        let nav = await utilities.getNav();
         console.error(`Error at: "${req.originalUrl}": ${err.message}`)
         err.stack = err.stack || '';
         res.render("errors/error", {

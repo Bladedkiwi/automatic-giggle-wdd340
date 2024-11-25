@@ -5,12 +5,17 @@
   &--grid {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     @include MQ(M) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "upgrade review"
     }
+  }
 
+  &--flex {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
   }
 

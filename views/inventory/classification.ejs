@@ -1,12 +1,14 @@
+
 <!--If statement that makes sure the title exists or else it will go back to the home page-->
 
 <% if (title) { %>
-<h1> <%= title %></h1>
+<h1 class="car__review--title"> <%= title %></h1>
 <% } else {
     res.redirect('/')
 }%>
 
 <%# messages() %>
-
+<div class="car">
 <%- grid %>
+</div>
 

@@ -250,6 +250,9 @@ body .flex-container {
   flex-direction: row;
   flex-wrap: wrap;
 }
+body .pad-1 {
+  padding: 1em;
+}
 @media only screen and (min-width: 600px) {
   body {
     background: url("../../images/site/checkerboard.jpg");
@@ -338,6 +341,11 @@ header .siteName a {
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "upgrade review";
   }
+}
+.car--flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .car__review {
   grid-area: review;

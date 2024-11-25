@@ -78,6 +78,10 @@ body {
     flex-wrap: wrap;
   }
 
+  .pad-1 {
+    padding: 1em;
+  }
+
   @include MQ(M) {
     background: url('../../images/site/checkerboard.jpg');
 

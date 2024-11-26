@@ -1,0 +1,27 @@
+.notice {
+  font-style: italic;
+  background: whitesmoke;
+  box-shadow: $shad;
+  list-style-type: none;
+  border: .1px $white solid;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  border-radius: 5px;
+  display: flex;
+  &__text {
+    flex: 1;
+  }
+&--success {
+  background: rgb(122,187,120);
+  background: linear-gradient(180deg, rgba(122,187,120,1) 0%, rgba(7,60,17,1) 99%);
+}
+  &--error {
+    background: rgb(158,72,72);
+    background: linear-gradient(180deg, rgba(158,72,72,1) 0%, rgba(129,44,44,1) 68%);
+  }
+  &--info {
+    background: rgb(129,126,114);
+    background: linear-gradient(180deg, rgba(129,126,114,1) 0%, rgba(0,0,0,1) 99%);
+  }
+}

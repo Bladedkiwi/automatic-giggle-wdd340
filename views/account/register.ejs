@@ -1,0 +1,18 @@
+<div class="account__login"><% if (title) { %>
+        <h1 class="account__login--header"> <%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    }%>
+
+    <form action="/acc/register" method="post" class="account__login--container">
+        <label for="account_firstname">First Name: </label><br>
+        <input type="text" id="account_firstname" name="account_firstname" autofocus required ><br>
+        <label for="account_lastname">Last Name: </label><br>
+        <input type="text" id="account_lastname" name="account_lastname"><br>
+        <label for="account_email">Email: </label><br>
+        <input type="email" id="account_email" name="account_email"><br>
+        <label for="account_password">Password: </label><br>
+        <input type="password" id="account_password" name="account_password" minlength="6" maxlength="12" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$"><br>
+        <button type="submit">Submit</button>
+    </form>
+</div>

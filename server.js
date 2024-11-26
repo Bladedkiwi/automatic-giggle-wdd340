@@ -9,34 +9,62 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const expressLayouts = require('express-ejs-layouts')
+const session = require('express-session');
+const cors = require('cors');
+const pool = require('./database/');
+
 const baseController = require('./controllers/base_controller');
 const invRoute = require('./routes/inv_route');
+const accRoute = require('./routes/acc_route');
 const utilities = require('./utilities');
 
 // Test 500 Error Route controller
 const errRoute = require('./routes/err_route');
+const {urlencoded} = require("express");
 
+/**
+ * Middleware
+ */
+app.use(session({
+    store: new(require('connect-pg-simple')(session))({
+        createTableIfMissing: true,
+        pool
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    name: 'sessionId'
+}))
+    //Express Messages
+    .use(require('connect-flash')())
+    .use((req,res,next)=>{
+        res.locals.messages = require('express-messages')(req,res)
+        next();
+    })
+    .use(express.json())
+    .use(urlencoded({ extended: true }))
+    .use(cors())
 
-/* ***********************
- * Routes
- *************************/
+/**
+ * View Engine and Templates
+ */
 app.set("view engine", "ejs")
     .use(expressLayouts)
     .set('layout', './layouts/layout')
     .use(require('./routes/static'))
+
     /**
-     * Base Route
-     * <p>render() retrieves the specified view which is index in this case and sends it back to the browser</p>
-     * <p>{title: "Home"} Treated like a variable with supplies the value that the "head" partial file expects to receive. This gets passed to the view</p>
+     * Routes
      */
     .get('/', utilities.handleErrors(baseController.buildHome))
     .use('/inv', utilities.handleErrors(invRoute))
+    .use('/acc', utilities.handleErrors(accRoute))
+
     // Testing 500 error Route
     .use('/test', utilities.handleErrors(errRoute))
 
     /**
-     * FILE NOT FOUND Route
-     * Must be the last route
+     * Error Handling Routes
      */
     .use((req, res, next) => {
         const errNothing = new Error('Sorry, this page has escaped existence.');

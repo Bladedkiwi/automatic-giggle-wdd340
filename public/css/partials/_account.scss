@@ -1,0 +1,32 @@
+.account__login {
+  background: $brown;
+  border: 1px solid $white;
+  border-radius: 5px;
+  margin: 2rem;
+  box-shadow: $shad;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 250px;
+  align-self: center;
+
+  &--header {
+    background: $black;
+    border-bottom: .1px solid $white;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+  }
+  &--container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  button {
+    justify-self: center;
+    border-radius: 30px;
+    background: $white;
+    padding: 5px;
+  }
+
+}

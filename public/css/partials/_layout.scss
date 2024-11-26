@@ -37,7 +37,10 @@ body {
   justify-content: center;
   background: $brown;
   color: $white;
-
+main {
+  display: flex;
+  flex-direction: column;
+}
   #wrapper {
     display: flex;
     flex-direction: column;
@@ -70,6 +73,22 @@ body {
     margin: 1em auto;
     text-align: center;
     max-width: 100%;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid $white;
+    &.input {
+      &--error {
+        border-color: red;
+      }
+    }
+  }
+
+  label {
+    padding: 10px 0;
+    display: block;
   }
 
   .flex-container {

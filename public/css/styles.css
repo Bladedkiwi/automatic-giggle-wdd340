@@ -217,6 +217,10 @@ body {
   background: linear-gradient(180deg, rgb(24, 0, 255) 0%, rgb(0, 0, 0) 0%, rgb(89, 73, 73) 100%, rgb(89, 73, 73) 100%);
   color: #ffffff;
 }
+body main {
+  display: flex;
+  flex-direction: column;
+}
 body #wrapper {
   display: flex;
   flex-direction: column;
@@ -244,6 +248,18 @@ body figure {
   margin: 1em auto;
   text-align: center;
   max-width: 100%;
+}
+body input, body textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ffffff;
+}
+body input.input--error, body textarea.input--error {
+  border-color: red;
+}
+body label {
+  padding: 10px 0;
+  display: block;
 }
 body .flex-container {
   display: flex;
@@ -322,6 +338,65 @@ header .siteName a {
   text-decoration: none;
   font-weight: bold;
 }
+.notice {
+  font-style: italic;
+  background: whitesmoke;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+  list-style-type: none;
+  border: 0.1px #ffffff solid;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  border-radius: 5px;
+  display: flex;
+}
+.notice__text {
+  flex: 1;
+}
+.notice--success {
+  background: rgb(122, 187, 120);
+  background: linear-gradient(180deg, rgb(122, 187, 120) 0%, rgb(7, 60, 17) 99%);
+}
+.notice--error {
+  background: rgb(158, 72, 72);
+  background: linear-gradient(180deg, rgb(158, 72, 72) 0%, rgb(129, 44, 44) 68%);
+}
+.notice--info {
+  background: rgb(129, 126, 114);
+  background: linear-gradient(180deg, rgb(129, 126, 114) 0%, rgb(0, 0, 0) 99%);
+}
+
+.account__login {
+  background: linear-gradient(180deg, rgb(24, 0, 255) 0%, rgb(0, 0, 0) 0%, rgb(89, 73, 73) 100%, rgb(89, 73, 73) 100%);
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  margin: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 250px;
+  align-self: center;
+}
+.account__login--header {
+  background: #19191c;
+  border-bottom: 0.1px solid #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0;
+}
+.account__login--container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.account__login button {
+  justify-self: center;
+  border-radius: 30px;
+  background: #ffffff;
+  padding: 5px;
+}
+
 /**********CAR**********/
 .car {
   display: block;

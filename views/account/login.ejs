@@ -3,7 +3,7 @@
 <% } else {
     res.redirect('/')
 }%>
-
+    <%- messages() %>
 <form class="account__login--container">
     <label for="account_email">Email: </label><br>
     <input type="email" id="account_email" name="account_email" autofocus><br>

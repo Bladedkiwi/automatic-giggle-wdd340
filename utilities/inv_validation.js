@@ -41,78 +41,71 @@ validate.detailRules = () => {
         body('inv_make')
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1})
-            .withMessage('Minimum of 3 Characters'),
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('Minimum of 3 Characters'),
         body('inv_model')
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1})
-            .withMessage('Minimum of 3 Characters'),
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('Minimum of 3 Characters'),
         body('inv_year')
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 4})
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 4}).withMessage('4-digit Year')
             .toInt()
-            .isInt()
-            .isNumeric()
-            .withMessage('4-Digit Year'),
+            .isInt().withMessage('Must be an Integer.')
+            .isNumeric().withMessage('4-Digit Year'),
         body('inv_description')
             .optional()
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1}),
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('Provide a detailed Description.'),
         body('inv_image')
             .optional()
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1})
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('File must be provided')
             .customSanitizer(value => he.decode(value))
             .matches(/^\/images\/vehicles\/.*\.(jpg|png)$/)
-            .withMessage('Must be formatted like so: /images/vehicles/example.(jpg,png)'),
+            .withMessage('Format like: /images/vehicles/ (jpg,png)'),
         body('inv_thumbnail')
             .optional()
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1})
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('File must be provided')
             .customSanitizer(value => he.decode(value))
             .matches(/^\/images\/vehicles\/.*\.(jpg|png)$/)
-            .withMessage('Must be formatted like so: /images/vehicles/example.(jpg,png)'),
+            .withMessage('Format like: /images/vehicles/ (jpg,png)'),
         body('inv_price')
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1})
-            .isNumeric()
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('Valid Price needed.')
+            .isNumeric().withMessage('Must be a valid number.')
             .toFloat()
-            .isFloat()
-            .withMessage('Decimals or Integers'),
+            .isFloat().withMessage('Decimals or Integers'),
         body('inv_miles')
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 4})
-            .isNumeric()
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('Valid Mileage Needed')
+            .isNumeric().withMessage('Must be a valid number.')
             .toInt()
-            .isInt()
-            .withMessage('Digits Only'),
+            .isInt().withMessage('Digits Only'),
         body('inv_color')
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1})
-            .withMessage('Alphabetical Letters Only'),
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('Alphabetical Letters Only'),
         body('classification_id')
             .trim()
             .escape()
-            .notEmpty()
-            .isLength({min: 1})
-            .withMessage('Please select a Classification'),
+            .notEmpty().withMessage('Field can not be empty.')
+            .isLength({min: 1}).withMessage('Please select a Classification'),
     ]
 }
 
@@ -122,8 +115,15 @@ validate.checkDetailData = async (req,res,next) => {
     errors = validationResult(req);
     if(!errors.isEmpty()) {
         let nav = await utilities.getNav();
-        let classification_options = utilities.buildClassificationFormOptions(classification_id);
-
+        let classification_options = await utilities.buildClassificationFormOptions(classification_id);
+        const groupedErrors = {};
+        errors.array().forEach(error => {
+            if (!groupedErrors[error.path]) {
+                groupedErrors[error.path] = [];
+            }
+            groupedErrors[error.path].push(error.msg);
+        })
+        errors = groupedErrors;
         res.render('inventory/add_inventory', {
             errors,
             title: 'Add Inventory',

@@ -5,17 +5,25 @@
     }%>
     <%- messages() %>
 
-    <% if (errors) { %>
-        <ul class="notice--error">
-            <% errors.array().forEach(error => { %>
-                <li><%= error.msg %></li>
-            <% }) %>
-        </ul>
-    <% } %>
+
 
     <form action="/inv/detail" id="inventoryForm" method="post" class="account__login--container">
+        <% if (errors && errors.classification_id) { %>
+            <ul class="notice--error">
+                <% errors.classification_id.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <%- classification_options %>
         <label for="inv_make">Make: </label><br>
+        <% if (errors && errors.inv_make) { %>
+            <ul class="notice--error">
+                <% errors.inv_make.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input
                 type="text"
                 id="inv_make"
@@ -23,10 +31,17 @@
                 required
                 title="Minimum of 3 Characters"
                 minlength="3"
-                value="<%= locals.inv_make %>">
-
+                value="<%= locals.inv_make %>"
+        >
         <br>
         <label for="inv_model">Model: </label><br>
+        <% if (errors && errors.inv_model) { %>
+            <ul class="notice--error">
+                <% errors.inv_model.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input type="text"
                id="inv_model"
                name="inv_model"
@@ -35,6 +50,13 @@
                minlength="3"
                value="<%= locals.inv_model %>"><br>
         <label for="inv_description">Description: </label><br>
+        <% if (errors && errors.inv_description) { %>
+            <ul class="notice--error">
+                <% errors.inv_description.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <textarea
                 id="inv_description"
                 name="inv_description"
@@ -44,6 +66,13 @@
         </textarea>
         <br>
         <label for="inv_image">Image Path: </label><br>
+        <% if (errors && errors.inv_image) { %>
+            <ul class="notice--error">
+                <% errors.inv_image.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input type="text"
                id="inv_image"
                name="inv_image"
@@ -53,6 +82,13 @@
                required
                value="<%= locals.inv_image %>"><br>
         <label for="inv_thumbnail">Thumbnail Path: </label><br>
+        <% if (errors && errors.inv_thumbnail) { %>
+            <ul class="notice--error">
+                <% errors.inv_thumbnail.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input type="text"
                id="inv_thumbnail"
                name="inv_thumbnail"
@@ -63,6 +99,13 @@
                required
         ><br>
         <label for="inv_price">Price: </label><br>
+        <% if (errors && errors.inv_price) { %>
+            <ul class="notice--error">
+                <% errors.inv_price.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input type="text"
                id="inv_price"
                name="inv_price"
@@ -71,6 +114,13 @@
                required
                value="<%= locals.inv_price %>"><br>
         <label for="inv_year">Year: </label><br>
+        <% if (errors && errors.inv_year) { %>
+            <ul class="notice--error">
+                <% errors.inv_year.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input type="text"
                id="inv_year"
                name="inv_year"
@@ -79,6 +129,13 @@
                required
                value="<%= locals.inv_year %>"><br>
         <label for="inv_miles">Miles: </label><br>
+        <% if (errors && errors.inv_miles) { %>
+            <ul class="notice--error">
+                <% errors.inv_miles.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input type="text"
                id="inv_miles"
                name="inv_miles"
@@ -87,6 +144,13 @@
                required
         ><br>
         <label for="inv_color">Color: </label><br>
+        <% if (errors && errors.inv_color) { %>
+            <ul class="notice--error">
+                <% errors.inv_color.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
         <input type="text"
                id="inv_color"
                name="inv_color"

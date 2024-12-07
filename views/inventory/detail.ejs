@@ -1,0 +1,10 @@
+<% if (title) { %>
+    <h1 class="car__review--title"> <%= title %></h1>
+<% } else {
+    res.redirect('/')
+}%>
+
+<div class="car--grid">
+    <%- grid %>
+</div>
+

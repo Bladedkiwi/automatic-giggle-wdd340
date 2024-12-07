@@ -307,6 +307,7 @@ body .pad-1 {
 nav ul {
   display: flex;
   justify-content: space-between;
+  flex-flow: row wrap;
 }
 nav ul li {
   color: #19191c;

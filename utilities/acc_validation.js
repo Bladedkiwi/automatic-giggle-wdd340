@@ -1,12 +1,13 @@
 const utilities = require('.');
+const accModel = require('../models/acc_model');
 const {body, validationResult } = require('express-validator');
-validate = {}
+accValidation = {}
 
 /**
  * Registration Data Validation Rules
  */
 
-validate.registrationRules = () => {
+accValidation.registrationRules = () => {
     return [
         //firstname: required, string
         body('account_firstname')
@@ -37,7 +38,13 @@ validate.registrationRules = () => {
             .isEmail()
             //by default converts to lowercase, removes extra whitespace, removes dots from the local part of the address, removes tags, returns it as a string
             .normalizeEmail()
-            .withMessage('Please provide a valid email'),
+            .withMessage('Please provide a valid email')
+            .custom(async (account_email) => {
+                const emailExists = await accModel.checkExistingEmail(account_email);
+                if (emailExists) {
+                    throw new Error('Email exists. Please log in or use a different email address.')
+                }
+            }),
 
         //password: required, strong
         body('account_password')
@@ -59,7 +66,7 @@ validate.registrationRules = () => {
  * Check Data and return errors/continue to registration
  */
 
-validate.checkRegData = async(req, res, next) => {
+accValidation.checkRegData = async(req, res, next) => {
     const { account_firstname, account_lastname, account_email} = req.body;
     let errors = [];
     errors = validationResult(req);
@@ -75,4 +82,55 @@ validate.checkRegData = async(req, res, next) => {
     next();
 }
 
-module.exports = validate
+
+accValidation.loginRules = () => {
+    return [
+        //email: required, unique to DB
+        body('account_email')
+            .trim()
+            .escape()
+            .notEmpty()
+            .isEmail()
+            //by default converts to lowercase, removes extra whitespace, removes dots from the local part of the address, removes tags, returns it as a string
+            .normalizeEmail()
+            .withMessage('Please provide a valid email')
+            .custom(async (account_email) => {
+                const emailExists = await accModel.checkExistingEmail(account_email);
+                if (emailExists) {
+                    throw new Error('Email exists. Please log in or use a different email address.')
+                }
+            }),
+
+        //password: required, strong
+        body('account_password')
+            .trim()
+            .notEmpty()
+            .isStrongPassword({
+                minLength: 12,
+                minLowercase: 1,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1
+            })
+            .withMessage('Password does not meet requirements'),
+    ]
+}
+
+
+accValidation.checkLoginData = async(req, res, next) => {
+    const { account_email} = req.body;
+    let errors = [];
+    errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        let nav = await utilities.getNav();
+        res.render('account/login', {
+            errors,
+            title: 'Login',
+            nav, account_email
+        })
+        return
+    }
+    next();
+}
+
+module.exports = accValidation

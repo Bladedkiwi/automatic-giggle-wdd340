@@ -4,11 +4,21 @@
     res.redirect('/')
 }%>
     <%- messages() %>
-<form class="account__login--container">
+
+
+<% if (errors) { %>
+        <ul class="notice--error">
+            <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+<form class="account__login--container" id="loginForm" action="/acc/login" method="post">
     <label for="account_email">Email: </label><br>
-    <input type="email" id="account_email" name="account_email" autofocus><br>
+    <input type="email" id="account_email" name="account_email" autofocus required value="<%= locals.account_email %>"><br>
     <label for="account_password">Password: </label><br>
-    <input type="password" id="account_password" name="account_password"><br>
+    <input type="password" id="account_password" name="account_password" required><br>
     <button type="submit">Submit</button>
 </form>
     <p>No Account? <a href="/acc/register">Sign Up</a></p>

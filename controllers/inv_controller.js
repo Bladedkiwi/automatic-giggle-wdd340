@@ -27,6 +27,64 @@ invCont.buildByInvId = async function (req, res, next) {
   })
 }
 
+invCont.buildNewInv = async (req, res, next) => {
+  let nav = await utilities.getNav();
 
+  res.render('./inventory/management', {
+    title: 'Inventory', nav
+  })
+}
+invCont.buildClassification = async function (req, res, next) {
+  let nav = await utilities.getNav();
+
+  res.render('./inventory/add_classification', {
+    title: 'Add Classification', nav, errors: null
+  })
+}
+
+invCont.addClassification = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const {classification_name} = req.body;
+  const classificationResult = await invModel.addClassification(classification_name);
+  if (classificationResult) {
+    req.flash('notice--success', 'Classification Successfully Added');
+    nav = await utilities.getNav();
+    res.status(201).render('./inventory/add_classification', {
+      title: 'Add Classification', nav, errors: null
+    })
+  } else {
+    req.flash('notice--error', 'Sorry, the addition of a new classification failed.');
+    res.status(501).render('./inventory/add_classification', {
+      title: 'Add Classification', nav, errors: null
+    })
+  }
+}
+
+invCont.buildInventory = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const classification_options = await utilities.buildClassificationFormOptions();
+  res.render('./inventory/add_inventory', {
+    title: 'Inventory', nav, classification_options, errors: null
+  })
+}
+
+invCont.addDetail = async function (req, res, next) {
+  let nav = await utilities.getNav();
+
+  const {inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id} = req.body;
+
+  const detailResult = await invModel.addInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id);
+  if (detailResult) {
+    req.flash('notice--success', 'Inventory Successfully Added.');
+        res.status(201).render('inventory/management', {
+      title: 'Inventory', nav, errors: null
+    });
+  } else {
+    req.flash('notice--error', 'Sorry, there was an error in adding additional inventory.' );
+    res.status(501).render('inventory/add_inventory', {
+      title: 'Add Inventory', nav, errors:null
+    })
+  }
+}
 
 module.exports = invCont;

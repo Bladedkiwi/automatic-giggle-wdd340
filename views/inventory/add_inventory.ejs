@@ -1,0 +1,100 @@
+<div class="account__login"><% if (title) { %>
+        <h1 class="account__login--header"> <%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    }%>
+    <%- messages() %>
+
+    <% if (errors) { %>
+        <ul class="notice--error">
+            <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <form action="/inv/detail" id="inventoryForm" method="post" class="account__login--container">
+        <%- classification_options %>
+        <label for="inv_make">Make: </label><br>
+        <input
+                type="text"
+                id="inv_make"
+                name="inv_make"
+                required
+                title="Minimum of 3 Characters"
+                minlength="3"
+                value="<%= locals.inv_make %>">
+
+        <br>
+        <label for="inv_model">Model: </label><br>
+        <input type="text"
+               id="inv_model"
+               name="inv_model"
+               required
+               title="Minimum of 3 Characters"
+               minlength="3"
+               value="<%= locals.inv_model %>"><br>
+        <label for="inv_description">Description: </label><br>
+        <textarea
+                id="inv_description"
+                name="inv_description"
+                required
+                rows="4"
+                cols="50">Enter your Description Here
+        </textarea>
+        <br>
+        <label for="inv_image">Image Path: </label><br>
+        <input type="text"
+               id="inv_image"
+               name="inv_image"
+               placeholder="/images/vehicles/example.jpg"
+               pattern="^\/images\/vehicles\/.*\.(jpg|png)$"
+                title="Must be formatted like so: /images/vehicles/example.jpg"
+               required
+               value="<%= locals.inv_image %>"><br>
+        <label for="inv_thumbnail">Thumbnail Path: </label><br>
+        <input type="text"
+               id="inv_thumbnail"
+               name="inv_thumbnail"
+               placeholder="/images/vehicles/example.jpg"
+               pattern="^\/images\/vehicles\/.*\.(jpg|png)$"
+               title="Must be formatted like so: /images/vehicles/example.jpg"
+               value="<%= locals.inv_thumbnail %>"
+               required
+        ><br>
+        <label for="inv_price">Price: </label><br>
+        <input type="text"
+               id="inv_price"
+               name="inv_price"
+                pattern="^-?\d+(\.\d+)?$"
+               title="Decimals or Integers"
+               required
+               value="<%= locals.inv_price %>"><br>
+        <label for="inv_year">Year: </label><br>
+        <input type="text"
+               id="inv_year"
+               name="inv_year"
+               pattern="^(19|20)\d{2}$"
+               title="4-Digit Year"
+               required
+               value="<%= locals.inv_year %>"><br>
+        <label for="inv_miles">Miles: </label><br>
+        <input type="text"
+               id="inv_miles"
+               name="inv_miles"
+               pattern="^\d+$"
+               title="Digits Only"
+               required
+        ><br>
+        <label for="inv_color">Color: </label><br>
+        <input type="text"
+               id="inv_color"
+               name="inv_color"
+               pattern="^[A-Za-z]+$"
+               title="Alphabetical Letters Only"
+               required
+               value="<%= locals.inv_color %>"><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>

@@ -75,6 +75,26 @@ Util.buildDetailGrid = async function (data) {
     return grid;
 }
 
+Util.buildClassificationFormOptions = async function (classification_id) {
+    const data = await invModel.getClassifications();
+    let classification_options;
+    if(data) {
+        classification_options = `<label for="classification_id">Classification: </label><select id="classification_id" name="classification_id" required>`;
+        classification_options += `<option value="">Choose a Classification</option>`;
+        data.rows.forEach((row) => {
+            classification_options +=`<option value="${row.classification_id}" `;
+            if (classification_id != null && row.classification_id === classification_id) {
+                classification_options += " selected";
+            }
+            classification_options += `>${row.classification_name}</option>`;
+        });
+        classification_options +=`</select>`;
+    }
+    return classification_options;
+}
+
+
+
 
 Util.handleErrors = fn =>
     (req, res, next) =>

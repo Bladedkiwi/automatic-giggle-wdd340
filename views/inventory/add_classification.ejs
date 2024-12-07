@@ -1,0 +1,33 @@
+<div class="account__login"><% if (title) { %>
+        <h1 class="account__login--header"> <%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    }%>
+    <%- messages() %>
+
+
+    <% if (errors) { %>
+        <ul class="notice--error">
+            <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <form class="account__login--container" id="classificationForm" action="/inv/type" method="post">
+        <label for="classification_name">Classification Name: </label><br>
+        <input type="text"
+               id="classification_name"
+               name="classification_name"
+               pattern="^[A-Za-z]+$"
+               title="Alphabetical letters only."
+               autofocus
+               required
+               value="<%= locals.classification_name %>">
+
+        <br>
+        <blockquote>Alphabetical Letters Only Please.</blockquote>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</div>

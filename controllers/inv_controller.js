@@ -29,11 +29,26 @@ invCont.buildByInvId = async function (req, res, next) {
 
 invCont.buildNewInv = async (req, res, next) => {
   let nav = await utilities.getNav();
-
+  const classification_options = await utilities.buildClassificationFormOptions();
   res.render('./inventory/management', {
-    title: 'Inventory', nav
+    title: 'Inventory', nav, classification_options, errors: null
   })
 }
+
+invCont.getInventoryJSON = async function (req, res, next) {
+  const classification_id = parseInt(req.params.classification_id);
+  const invData = await invModel.getInventoryByClassificationId(classification_id);
+  if (invData.length > 0 && invData[0].classification_id) {
+    return res.json(invData);
+  }  if (invData.length === 0 && classification_id > 0) {
+    req.flash('notice--error', 'No Current Inventory');
+    return res.json({});
+  }  else {
+    console.log('no data');
+    next(new Error("No Data Returned"));
+  }
+}
+
 invCont.buildClassification = async function (req, res, next) {
   let nav = await utilities.getNav();
 
@@ -86,5 +101,6 @@ invCont.addDetail = async function (req, res, next) {
     })
   }
 }
+
 
 module.exports = invCont;

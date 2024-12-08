@@ -9,6 +9,8 @@ router.get('/type/:classification_id', invController.buildByClassificationId);
 router.get('/detail/:inv_id', invController.buildByInvId);
 router.get('/type', invController.buildClassification);
 router.get('/detail', invController.buildInventory);
+router.get('/get-inv/:classification_id', invController.getInventoryJSON)
+
 
 router.post('/type',
     invValidate.classificationRules(),

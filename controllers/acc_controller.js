@@ -80,7 +80,6 @@ async function accountLogin(req,res,next) {
         }
 
     try {
-
         const test = await bcrypt.compare(account_password, accountData.account_password);
         console.log(test);
         if (await bcrypt.compare(account_password, accountData.account_password)) {

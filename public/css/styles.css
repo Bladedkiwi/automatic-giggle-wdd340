@@ -235,11 +235,11 @@ body h1 {
   padding: 0.8rem 0.3rem 0.8rem;
   margin: 0.5rem 0 0.3rem;
 }
-body ul {
+body ul, body tbody {
   padding: 0.4rem 0.5rem 0.5rem;
   background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgb(90, 87, 87) 90%);
 }
-body p, body li {
+body p, body li, body tr {
   padding: 0.2rem 0.2rem 0.2rem;
   font-size: 0.9rem;
 }
@@ -279,10 +279,10 @@ body .pad-1 {
     border: 5px solid #19191c;
     padding: 0.3rem;
   }
-  body p, body li, body a, body button {
+  body p, body li, body a, body button, body td {
     font-size: calc(0.9rem + 0.4vw);
   }
-  body ul {
+  body ul, body tbody {
     padding: 0.5rem 0.8rem 0.5rem;
   }
   body p {
@@ -296,7 +296,7 @@ body .pad-1 {
   body #wrapper {
     margin: 1rem 3.5rem 3.5rem;
   }
-  body p, body li, body a {
+  body p, body li, body a, body td {
     font-size: calc(1rem + 0.8vw);
   }
   body h1 {
@@ -431,12 +431,18 @@ header .siteName a {
   font-weight: bold;
   margin-left: -2px;
 }
+.car__review--title tr th {
+  font-size: 1rem;
+}
 .car__review--list {
   background: transparent;
   list-style: inherit;
 }
 .car__review--list li {
   padding: 0.4em;
+}
+.car__review--list tr td {
+  padding: 0.3em;
 }
 .car__type {
   position: relative;

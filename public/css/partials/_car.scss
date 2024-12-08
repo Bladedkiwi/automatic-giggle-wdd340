@@ -27,6 +27,9 @@
     &--title {
       font-weight: bold;
       margin-left: -2px;
+      tr th {
+        font-size: 1rem;
+      }
 
     }
     &--list {
@@ -34,7 +37,9 @@
       list-style: inherit;
       li {
         padding: .4em;
-
+      }
+      tr td {
+        padding: .3em;
       }
     }
   }

@@ -27,6 +27,31 @@ invCont.buildByInvId = async function (req, res, next) {
   })
 }
 
+invCont.buildEditByInvId = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const inv_id = parseInt(req.params.inv_id);
+  const invData = await invModel.getDetailByInvId(inv_id);
+  const classification_options = await utilities.buildClassificationFormOptions(invData.classification_id);
+  const invName = `${invData.inv_make} ${invData.inv_model}`
+  res.render("./inventory/edit_inventory", {
+    title: "Edit " + invName,
+    nav,
+    classification_options,
+    errors: null,
+    inv_id: invData.inv_id,
+    inv_make: invData.inv_make,
+    inv_model: invData.inv_model,
+    inv_year: invData.inv_year,
+    inv_description: invData.inv_description,
+    inv_image: invData.inv_image,
+    inv_thumbnail: invData.inv_thumbnail,
+    inv_price: invData.inv_price,
+    inv_miles: invData.inv_miles,
+    inv_color: invData.inv_color,
+    classification_id: invData.classification_id
+  })
+}
+
 invCont.buildNewInv = async (req, res, next) => {
   let nav = await utilities.getNav();
   const classification_options = await utilities.buildClassificationFormOptions();

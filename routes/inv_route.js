@@ -10,7 +10,7 @@ router.get('/detail/:inv_id', invController.buildByInvId);
 router.get('/type', invController.buildClassification);
 router.get('/detail', invController.buildInventory);
 router.get('/get-inv/:classification_id', invController.getInventoryJSON)
-
+router.get('/edit-inv/:inv_id', invController.buildEditByInvId)
 
 router.post('/type',
     invValidate.classificationRules(),
@@ -21,6 +21,12 @@ router.post('/detail',
     invValidate.detailRules(),
     invValidate.checkDetailData,
     invController.addDetail);
+
+router.post('/edit-inv',
+    invValidate.detailRules(),
+    invValidate.checkDetailData,
+    // invController.editInvById
+    )
 
 
 

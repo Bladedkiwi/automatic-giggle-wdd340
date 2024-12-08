@@ -24,9 +24,8 @@ router.post('/detail',
 
 router.post('/edit-inv',
     invValidate.detailRules(),
-    invValidate.checkDetailData,
-    // invController.editInvById
-    )
+    invValidate.checkEditInvById,
+    invController.editInvById);
 
 
 

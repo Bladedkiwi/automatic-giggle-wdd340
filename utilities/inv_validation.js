@@ -84,7 +84,6 @@ validate.detailRules = () => {
             .trim()
             .escape()
             .notEmpty().withMessage('Field can not be empty.')
-            .isLength({min: 1}).withMessage('Valid Price needed.')
             .isNumeric().withMessage('Must be a valid number.')
             .toFloat()
             .isFloat().withMessage('Decimals or Integers'),
@@ -92,7 +91,6 @@ validate.detailRules = () => {
             .trim()
             .escape()
             .notEmpty().withMessage('Field can not be empty.')
-            .isLength({min: 1}).withMessage('Valid Mileage Needed')
             .isNumeric().withMessage('Must be a valid number.')
             .toInt()
             .isInt().withMessage('Digits Only'),
@@ -128,6 +126,32 @@ validate.checkDetailData = async (req,res,next) => {
             errors,
             title: 'Add Inventory',
             nav, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_options
+        })
+        return
+    }
+    next();
+}
+
+
+validate.checkEditInvById = async (req,res,next) => {
+    const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id, inv_id } = req.body;
+    let errors;
+    errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        let nav = await utilities.getNav();
+        let classification_options = await utilities.buildClassificationFormOptions(classification_id);
+        const groupedErrors = {};
+        errors.array().forEach(error => {
+            if (!groupedErrors[error.path]) {
+                groupedErrors[error.path] = [];
+            }
+            groupedErrors[error.path].push(error.msg);
+        })
+        errors = groupedErrors;
+        res.render('inventory/edit_inventory', {
+            errors,
+            title:`Edit ${inv_make} ${inv_model}`,
+            nav, inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_options
         })
         return
     }

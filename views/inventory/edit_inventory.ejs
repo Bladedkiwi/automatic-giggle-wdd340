@@ -7,7 +7,7 @@
 
 
 
-    <form action="/inv/edit-inv" id="inventoryForm" method="post" class="account__login--container">
+    <form action="/inv/edit-inv" id="editForm" method="post" class="account__login--container">
         <input type="hidden" name="inv_id"
         <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
                 <% } %>>
@@ -163,6 +163,7 @@
                required
                value="<%= locals.inv_color %>"><br>
 
-        <button type="submit">Update Vehicle</button>
+        <button type="submit" disabled>Update Vehicle</button>
     </form>
 </div>
+<script src="../../js/inv-edit.js"></script>

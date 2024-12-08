@@ -12,6 +12,7 @@ const expressLayouts = require('express-ejs-layouts')
 const session = require('express-session');
 const cors = require('cors');
 const pool = require('./database/');
+const cookieParser = require('cookie-parser');
 
 const baseController = require('./controllers/base_controller');
 const invRoute = require('./routes/inv_route');
@@ -44,6 +45,8 @@ app.use(session({
     .use(express.json())
     .use(urlencoded({ extended: true }))
     .use(cors())
+    .use(cookieParser())
+    .use(utilities.checkJWTtoken)
 
 /**
  * View Engine and Templates

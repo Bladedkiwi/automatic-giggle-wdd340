@@ -96,23 +96,14 @@ accValidation.loginRules = () => {
             .withMessage('Please provide a valid email')
             .custom(async (account_email) => {
                 const emailExists = await accModel.checkExistingEmail(account_email);
-                if (emailExists) {
-                    throw new Error('Email exists. Please log in or use a different email address.')
+                if (!emailExists) {
+                    throw new Error('Please enter valid credentials and try again.')
                 }
             }),
 
-        //password: required, strong
         body('account_password')
             .trim()
             .notEmpty()
-            .isStrongPassword({
-                minLength: 12,
-                minLowercase: 1,
-                minUppercase: 1,
-                minNumbers: 1,
-                minSymbols: 1
-            })
-            .withMessage('Password does not meet requirements'),
     ]
 }
 

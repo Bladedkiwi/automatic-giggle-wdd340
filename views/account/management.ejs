@@ -4,7 +4,18 @@
     res.redirect('/')
 }%>
 <%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice--error">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
 <div class="car--grid">
-    <%- grid %>
+    <h2 class="car__review--title">Welcome <%- locals.accountData.account_firstname %></h2>
+    <p>You're logged in.</p>
+
 </div>
 

@@ -1,5 +1,7 @@
+require("dotenv").config();
 const invModel = require('../models/inv_model')
 const Util = {};
+const jwt = require('jsonwebtoken');
 
 
 //Create the Navigation Unordered List
@@ -93,8 +95,42 @@ Util.buildClassificationFormOptions = async function (classification_id) {
     return classification_options;
 }
 
+/**
+ * Middleware to check token validity
+ */
 
+Util.checkJWTtoken = (req, res, next) => {
+    if (req.cookies.jwt) {
+        jwt.verify(
+            req.cookies.jwt,
+            process.env.ACCESS_TOKEN_SECRET,
+            function (err, accountData) {
+                if (err) {
+                    req.flash('Please Log in.');
+                    res.clearCookie('jwt');
+                    return res.redirect('/account/login');
+                }
+                res.locals.accountData = accountData;
+                res.locals.loggedIn = 1;
+            next();
+            })
+    } else {
+        next();
+    }
+}
 
+/**
+ * Check Login
+ */
+
+Util.checkLogin = (req, res, next) => {
+    if (res.locals.loggedIn) {
+        next();
+    } else {
+        req.flash('notice--error', "Please Log in.");
+        return res.redirect('/acc/login')
+    }
+}
 
 Util.handleErrors = fn =>
     (req, res, next) =>

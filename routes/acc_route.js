@@ -7,12 +7,12 @@ const accValidation = require('../utilities/acc_validation');
 router.get('/login', accCont.buildLogin);
 router.get('/register', accCont.buildRegister);
 
-// router.get('/', accCont.buildManagement);
+router.get('/', utilities.checkLogin, accCont.buildAccountManagement);
 
-router.post('/login', accValidation.loginRules(),
-    accValidation.checkLoginData,(req, res) => {
-    res.status(200).send('login process')
-})
+router.post('/login',
+    accValidation.loginRules(),
+    accValidation.checkLoginData,
+    accCont.accountLogin)
 
 router.post('/register',
     accValidation.registrationRules(),

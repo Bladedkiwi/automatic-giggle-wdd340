@@ -1,6 +1,8 @@
+require('dotenv').config();
 const utilities = require('../utilities');
 const accModel = require('../models/acc_model')
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 
 /**
@@ -56,8 +58,69 @@ async function registerAccount(req,res) {
     }
 }
 
+async function buildAccountManagement(req,res,next) {
+    let nav = await utilities.getNav();
+    const {account_firstname, account_lastname, account_email} = req.body;
+    res.render('account/management', {
+        title: 'Management', nav, errors: null
+    })
+
+}
+
+async function accountLogin(req,res,next) {
+    let nav = await utilities.getNav();
+    const { account_email, account_password } = req.body;
+    const accountData = await accModel.getAccountByEmail(account_email);
+    if (!accountData) {
+        req.flash('notice--error', "Please check your credentials and try again.")
+        res.status(400).render('account/login', {
+            title: 'Login', nav, errors: null,account_email
+        })
+        return;
+        }
+
+    try {
+
+        const test = await bcrypt.compare(account_password, accountData.account_password);
+        console.log(test);
+        if (await bcrypt.compare(account_password, accountData.account_password)) {
+            delete accountData.account_password;
+            const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {expiresIn: 3600 * 1000 });
+            if (process.env.NODE_ENV === 'development') {
+                res.cookie('jwt', accessToken, {
+                    httpOnly: true,
+                    maxAge: 3600 * 1000
+                });
+            } else {
+                res.cookie('jwt', accessToken, {
+                    httpOnly: true,
+                    secure: true,
+                    maxAge: 3600 * 1000
+                })
+            }
+            return res.redirect('/acc/');
+
+        } else {
+            req.flash("notice--error", "Please check your credentials and try again.")
+            res.status(400).render("account/login", {
+                title: "Login",
+                nav,
+                errors: null,
+                account_email,
+        })
+    }
+} catch (error) {
+    throw new Error('Access Forbidden')
+    }
+}
 
 
 
-module.exports = {buildLogin, buildRegister, registerAccount};
+module.exports = {
+    buildLogin,
+    buildRegister,
+    registerAccount,
+    accountLogin,
+    buildAccountManagement
+};
 

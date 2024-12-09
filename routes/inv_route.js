@@ -11,6 +11,8 @@ router.get('/type', invController.buildClassification);
 router.get('/detail', invController.buildInventory);
 router.get('/get-inv/:classification_id', invController.getInventoryJSON)
 router.get('/edit-inv/:inv_id', invController.buildEditByInvId)
+router.get('/delete-inv/:inv_id', invController.buildDeleteInv)
+
 
 router.post('/type',
     invValidate.classificationRules(),
@@ -26,6 +28,8 @@ router.post('/edit-inv',
     invValidate.detailRules(),
     invValidate.checkEditInvById,
     invController.editInvById);
+
+router.post('/delete-inv', invController.deleteInvById)
 
 
 

@@ -1,0 +1,96 @@
+<div class="account__login"><% if (title) { %>
+        <h1 class="account__login--header"> <%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    }%>
+    <%- messages() %>
+
+
+
+    <form action="/inv/delete-inv" id="deleteForm" method="post" class="account__login--container">
+        <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+                <% } %>>
+        <% if (errors && errors.classification_id) { %>
+            <ul class="notice--error">
+                <% errors.classification_id.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <%- classification_options %>
+        <label for="inv_make">Make: </label><br>
+        <% if (errors && errors.inv_make) { %>
+            <ul class="notice--error">
+                <% errors.inv_make.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <input
+                type="text"
+                id="inv_make"
+                name="inv_make"
+                required
+                title="Minimum of 3 Characters"
+                minlength="3"
+                value="<%= locals.inv_make %>"
+                readonly
+        >
+        <br>
+        <label for="inv_model">Model: </label><br>
+        <% if (errors && errors.inv_model) { %>
+            <ul class="notice--error">
+                <% errors.inv_model.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <input type="text"
+               id="inv_model"
+               name="inv_model"
+               required
+               title="Minimum of 3 Characters"
+               minlength="3"
+               value="<%= locals.inv_model %>"
+               readonly
+        ><br>
+        <label for="inv_year">Year: </label><br>
+        <% if (errors && errors.inv_year) { %>
+            <ul class="notice--error">
+                <% errors.inv_year.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <input type="text"
+               id="inv_year"
+               name="inv_year"
+               pattern="^(19|20)\d{2}$"
+               title="4-Digit Year"
+               required
+               value="<%= locals.inv_year %>"
+               readonly
+        ><br>
+        <label for="inv_price">Price: </label><br>
+        <% if (errors && errors.inv_price) { %>
+            <ul class="notice--error">
+                <% errors.inv_price.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <input type="text"
+               id="inv_price"
+               name="inv_price"
+               pattern="^-?\d+(\.\d+)?$"
+               title="Decimals or Integers"
+               required
+               value="<%= locals.inv_price %>"
+                readonly
+        ><br>
+
+        <span>The Delete is Permanent.</span>
+        <button type="submit">Delete Vehicle</button>
+    </form>
+</div>

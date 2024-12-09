@@ -14,11 +14,12 @@ Get all inventory and classification_name by classification_id
 async function getInventoryByClassificationId(classification_id) {
     try {
         const data = await pool.query(
-            `SELECT *
-             FROM public.inventory AS i
-                      JOIN public.classification AS c ON i.classification_id = c.classification_id
-             WHERE i.classification_id = $1`, [classification_id]
-        )
+            `SELECT c.classification_name, i.*
+             FROM public.classification AS c
+                      LEFT JOIN public.inventory AS i ON c.classification_id = i.classification_id
+             WHERE c.classification_id = $1`,
+            [classification_id]
+        );
         return data.rows
     } catch (error) {
         console.error('getInventoryByClassificationId' + error);
@@ -98,9 +99,26 @@ async function editInventory(
         ])
         return data.rows[0]
     } catch (error) {
-        console.error("model error: " + error)
+        console.error("model error: " + error);
+        new Error('Edit Inventory Error');
     }
 }
+
+async function deleteInventory(
+    inv_id
+) {
+    try {
+        const sql =
+            "DELETE FROM inventory WHERE inv_id = $1";
+        return await pool.query(sql, [
+            inv_id
+        ])
+    } catch (error) {
+        console.error("Delete Inventory error: " + error)
+        new Error('Delete Inventory Error')
+    }
+}
+
 
 module.exports = {
     getClassifications,
@@ -108,6 +126,7 @@ module.exports = {
     getDetailByInvId,
     addClassification,
     addInventory,
-    editInventory
+    editInventory,
+    deleteInventory,
 
 };

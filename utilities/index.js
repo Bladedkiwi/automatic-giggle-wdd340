@@ -24,7 +24,7 @@ Util.getNav = async function (req, res, next) {
 
 Util.buildClassificationGrid = async function (data) {
     let grid
-    if (data.length > 0) {
+    if (data[0].classification_name && data.length > 1) {
         grid = `<ul id="inv_display" class="car__review--list">`;
         data.forEach(vehicle => {
             grid += '<li class="car--grid">'
@@ -47,7 +47,7 @@ Util.buildClassificationGrid = async function (data) {
         })
         grid += '</ul>';
     } else {
-        grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+        grid = '<p class="notice--success">Sorry, no matching vehicles could be found.</p>'
 
     }
     return grid;

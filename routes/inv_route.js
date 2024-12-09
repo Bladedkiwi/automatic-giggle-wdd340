@@ -9,9 +9,9 @@ router.get('/type/:classification_id', invController.buildByClassificationId);
 router.get('/detail/:inv_id', invController.buildByInvId);
 router.get('/type', invController.buildClassification);
 router.get('/detail', invController.buildInventory);
-router.get('/get-inv/:classification_id', invController.getInventoryJSON)
-router.get('/edit-inv/:inv_id', invController.buildEditByInvId)
-router.get('/delete-inv/:inv_id', invController.buildDeleteInv)
+router.get('/get-inv/:classification_id', invController.getInventoryJSON);
+router.get('/edit-inv/:inv_id', invController.buildEditByInvId);
+router.get('/delete-inv/:inv_id', invController.buildDeleteInv);
 
 
 router.post('/type',

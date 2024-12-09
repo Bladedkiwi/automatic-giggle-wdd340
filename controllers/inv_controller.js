@@ -110,9 +110,9 @@ invCont.buildNewInv = async (req, res, next) => {
 invCont.getInventoryJSON = async function (req, res, next) {
   const classification_id = parseInt(req.params.classification_id);
   const invData = await invModel.getInventoryByClassificationId(classification_id);
-  if (invData.length > 0 && invData[0].classification_id) {
+  if (invData.length > 1 && invData[1].classification_id) {
     return res.json(invData);
-  }  if (invData.length === 0 && classification_id > 0) {
+  }  if (invData.length === 1 && classification_id > 0) {
     return res.json({});
   }  else {
     console.log('no data');
@@ -230,7 +230,7 @@ invCont.buildDeleteInv = async (req, res, next) => {
   const inv_id = parseInt(req.params.inv_id);
   const invData = await invModel.getDetailByInvId(inv_id);
   const classification_options = await utilities.buildClassificationFormOptions(invData.classification_id);
-  const invName = `${invData.inv_make} ${invData.inv_model}`
+  const invName = `${invData.inv_make} ${invData.inv_model}`;
   res.render("./inventory/delete_inventory", {
     title: "Delete " + invName,
     nav,

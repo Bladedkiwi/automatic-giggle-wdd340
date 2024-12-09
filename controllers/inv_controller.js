@@ -84,14 +84,14 @@ invCont.buildInventory = async function (req, res, next) {
 
 invCont.addDetail = async function (req, res, next) {
   let nav = await utilities.getNav();
-
+  let classification_options = await utilities.buildClassificationFormOptions();
   const {inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id} = req.body;
 
   const detailResult = await invModel.addInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id);
   if (detailResult) {
     req.flash('notice--success', 'Inventory Successfully Added.');
         res.status(201).render('inventory/management', {
-      title: 'Inventory', nav, errors: null
+      title: 'Inventory', nav, errors: null, classification_options
     });
   } else {
     req.flash('notice--error', 'Sorry, there was an error in adding additional inventory.' );

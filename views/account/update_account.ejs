@@ -1,0 +1,72 @@
+<div class="account__login"><% if (title) { %>
+        <h1 class="account__login--header"> <%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    }%>
+    <%- messages() %>
+
+
+    <form action="/acc/update" method="post" id="accountUpdate" class="account__login--container">
+        <input type="hidden" name="form_type" value="account_update"/>
+        <input type="hidden" name="account_id"
+        <% if(locals.account_id) { %> value="<%= locals.account_id %>"
+                <% } %>>
+        <label for="account_firstname">First Name: </label><br>
+        <% if (errors && errors.account_firstname) { %>
+            <ul class="notice--error">
+                <% errors.acount_firstname.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <input type="text" id="account_firstname" name="account_firstname"
+               required
+               value="<%= locals.account_firstname %>"><br>
+        <label for="account_lastname">Last Name: </label><br>
+                    <% if (errors && errors.account_lastname) { %>
+                        <ul class="notice--error">
+                            <% errors.account_lastname.forEach(error => { %>
+                                <li><%= error %></li>
+                            <% }) %>
+                        </ul>
+        <% } %>
+        <input type="text" id="account_lastname" name="account_lastname" required value="<%= locals.account_lastname %>"><br>
+        <label for="account_email">Email: </label><br>
+                                <% if (errors && errors.account_email) { %>
+                                    <ul class="notice--error">
+                                        <% errors.account_email.forEach(error => { %>
+                                            <li><%= error %></li>
+                                        <% }) %>
+                                    </ul>
+        <% } %>
+        <input type="email"
+               id="account_email"
+               name="account_email"
+               value="<%= locals.account_email %>"><br>
+        <button type="submit">Update Profile</button>
+    </form>
+    <form action="/acc/update" method="post" id="accountUpdatePass" class="account__login--container">
+        <input type="hidden" name="form_type" value="password_update"/>
+        <input type="hidden" name="account_id"
+        <% if(locals.account_id) { %> value="<%= locals.account_id %>"
+                <% } %>>
+                <label for="account_password">New Password: </label><br>
+        <% if (errors && errors.account_password) { %>
+        <ul class="notice--error">
+            <% errors.account_password.forEach(error => { %>
+                <li><%= error %></li>
+            <% }) %>
+        </ul>
+        <% } %>
+                <input type="password"
+                       id="account_password"
+                       name="account_password"
+                       minlength="12"
+                       pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$"
+                       title="Password must have a Numeric Value, Special Character, and be at least 12 characters long."
+                       required
+                ><br>
+        <p>Make sure to remember your password.</p>
+        <button type="submit">Update Password</button>
+    </form>
+</div>

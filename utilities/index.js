@@ -120,15 +120,35 @@ Util.checkJWTtoken = (req, res, next) => {
 }
 
 /**
+ * Check Authorization
+ */
+Util.checkManagementAuthorization = async function (req, res, next) {
+    if (req.cookies.jwt && res.locals.accountData.account_type === 'client') {
+
+    }
+}
+
+
+/**
  * Check Login
  */
 
 Util.checkLogin = (req, res, next) => {
-    if (res.locals.loggedIn) {
+    if (res.locals.loggedIn === 1) {
         next();
     } else {
         req.flash('notice--error', "Please Log in.");
         return res.redirect('/acc/login')
+    }
+}
+
+Util.checkAuth = (req, res, next) => {
+    if (res.locals.accountData.account_type !== 'client') {
+        next();
+    }
+    else {
+        req.flash('notice--error', "Access Denied.");
+        return res.redirect('/acc');
     }
 }
 

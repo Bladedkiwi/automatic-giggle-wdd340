@@ -22,6 +22,7 @@ const utilities = require('./utilities');
 // Test 500 Error Route controller
 const errRoute = require('./routes/err_route');
 const {urlencoded} = require("express");
+const accCont = require("./controllers/acc_controller");
 
 /**
  * Middleware
@@ -48,6 +49,7 @@ app.use(session({
     .use(cookieParser())
     .use(utilities.checkJWTtoken)
 
+
 /**
  * View Engine and Templates
  */
@@ -62,8 +64,9 @@ app.set("view engine", "ejs")
     .get('/', utilities.handleErrors(baseController.buildHome))
     .use('/inv', utilities.handleErrors(invRoute))
     .use('/acc', utilities.handleErrors(accRoute))
+    .use('/logout', accCont.accountLogout)
 
-    // Testing 500 error Route
+// Testing 500 error Route
     .use('/test', utilities.handleErrors(errRoute))
 
     /**

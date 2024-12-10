@@ -1,4 +1,4 @@
-<% if (title) { %>
+<% if (title && locals.accountData) { %>
     <h1 class="car__review--title"> <%= title %></h1>
 <% } else {
     res.redirect('/')
@@ -13,9 +13,18 @@
     </ul>
 <% } %>
 
-<div class="car--grid">
-    <h2 class="car__review--title">Welcome <%- locals.accountData.account_firstname %></h2>
-    <p>You're logged in.</p>
+<div class="car__upgrade">
+    <h2 class="car__upgrade--title">Welcome <%- locals.accountData.account_firstname %></h2>
+    <hr>
+    <br>
+    <div class="car__upgrade--list">
+    <a href="/acc/update/<%- locals.accountData.account_id%>">Update Account Information</a>
+    <% if (locals.accountData.account_type !== 'client') { %>
+        <div><h3 class="">Manage Inventory</h3>
+            <a href="/inv/">Current Inventory</a></div>
+    <% }%>
+    </div>
+
 
 </div>
 

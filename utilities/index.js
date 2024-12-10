@@ -1,5 +1,6 @@
 require("dotenv").config();
 const invModel = require('../models/inv_model')
+const accModel = require('../models/acc_model')
 const Util = {};
 const jwt = require('jsonwebtoken');
 
@@ -95,6 +96,7 @@ Util.buildClassificationFormOptions = async function (classification_id) {
     return classification_options;
 }
 
+
 /**
  * Middleware to check token validity
  */
@@ -123,8 +125,12 @@ Util.checkJWTtoken = (req, res, next) => {
  * Check Authorization
  */
 Util.checkManagementAuthorization = async function (req, res, next) {
-    if (req.cookies.jwt && res.locals.accountData.account_type === 'client') {
-
+    if (res.locals.accountData.account_type === 'admin') {
+        next();
+    }
+    else {
+        req.flash('notice--error', "Access Denied.");
+        return res.redirect('/acc');
     }
 }
 

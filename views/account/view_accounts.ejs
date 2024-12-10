@@ -1,0 +1,27 @@
+<% if (title) { %>
+    <h1 class="car__review--title"> <%= title %></h1>
+<% } else {
+    res.redirect('/')
+}%>
+<%- messages() %>
+<div class="car--grid">
+
+<div class="car__upgrade">
+    <div class="">
+        <h2 class="car__review--title">Accounts</h2>
+        <label for="account_type_base_options"></label>
+        <select id="account_type_base_options" name="account_type_base_options" title="Select an Account Type" required>
+            <option value="">Choose an Account Type</option>
+            <option value="client">Client</option>
+            <option value="employee">Employee</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+</div>
+
+    <noscript>JavaScript must be enabled to use this page.</noscript>
+</div>
+    <table id="accountListDisplay" class="account">
+
+    </table>
+<script src="../../js/accounts.js"></script>

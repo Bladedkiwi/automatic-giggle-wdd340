@@ -114,11 +114,9 @@ async function accountLogin(req,res,next) {
 }
 
 async function accountLogout(req,res,next) {
-    console.log(res.locals)
     res.clearCookie('jwt');
     delete res.locals.accountData;
     res.locals.loggedIn = 0;
-    console.log(res.locals);
     res.redirect('/acc/login')
 }
 
@@ -152,14 +150,12 @@ async function buildUpdateAccountById(req, res, next) {
 
 async function updateAccount(req,res,next) {
     let nav = await utilities.getNav();
-
     const {account_id, account_firstname, account_lastname, account_email, account_password} = req.body;
     let updateResult = []
     if (!account_password) {
         console.log('no password submitted');
         //Submit account data
         updateResult = await accModel.updateAccountById(account_id, account_firstname, account_lastname, account_email);
-
     } else {
         // password to update
         if (account_password !== '') {
@@ -167,8 +163,6 @@ async function updateAccount(req,res,next) {
             updateResult = await accModel.updateAccountPassById(account_id, hashedPassword);
         }
     }
-
-
     if (updateResult) {
         req.flash('notice--success', `Your account was successfully updated.`);
         res.redirect('/acc/');
@@ -181,6 +175,36 @@ async function updateAccount(req,res,next) {
     }
 }
 
+async function buildAccounts(req, res, next) {
+    let nav = await utilities.getNav();
+    res.render('account/view_accounts', {
+        title: 'Manage Accounts', nav,  errors:null } )
+
+}
+
+async function getAccountsJSON (req, res, next) {
+    const account_type = req.params.account_type;
+    const accountList = await accModel.getAccountsByType(account_type);
+    if (accountList.length > 0) {
+        return res.json(accountList);
+    }  if (accountList.length === 0) {
+        return res.json({});
+    }  else {
+        next(new Error("No Data Returned"));
+    }
+}
+
+async function updateAccountTypeById (req, res, next) {
+    const {account_id, account_type } = req.params;
+    const updateResult = await accModel.updateAccountType(account_type, account_id);
+    if (updateResult) {
+        return res.json({ success: true, message: 'Account type updated successfully' });
+    } else {
+        return res.json({ success: false, message: 'Failed to update.' })
+    }
+
+}
+
 
 
 module.exports = {
@@ -191,7 +215,10 @@ module.exports = {
     accountLogout,
     buildAccountManagement,
     buildUpdateAccountById,
-    updateAccount
+    updateAccount,
+    buildAccounts,
+    getAccountsJSON,
+    updateAccountTypeById
 
 };
 

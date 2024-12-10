@@ -4,7 +4,6 @@
   </span>
     <div id="tools">
 
-       <% console.log(locals.accountData)%>
         <% if (locals.accountData) { %> <a href="/acc/" class="pad-1"> Welcome <%- locals.accountData.account_firstname %></a> <a href="/logout" title="Click to Log Out">Log Out</a> <% } else { %> <a href="/acc/login" title="Click to Log In">My Account </a> <% }%>
 
     </div>

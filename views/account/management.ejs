@@ -22,6 +22,12 @@
     <% if (locals.accountData.account_type !== 'client') { %>
         <div><h3 class="">Manage Inventory</h3>
             <a href="/inv/">Current Inventory</a></div>
+        <% }%>
+            <% if (locals.accountData.account_type === 'admin') { %>
+            <div>
+            <h3>Manage Accounts</h3>
+            <a href="/acc/accounts">Accounts</a>
+            </div>
     <% }%>
     </div>
 

@@ -52,17 +52,29 @@ main {
     max-width: 100%;
     height: auto;
   }
-
+  tbody {
+    display: flex;
+    flex-direction: column;
+    background: $pink;
+    padding: .4rem .5rem .5rem;
+  }
   h1 {
     padding: .8rem 0.3rem .8rem;
     margin: .5rem 0 .3rem;
   }
-
-  ul, tbody {
+  input,textarea,option, button, select {
+    color: $black;
+  }
+  ul {
     padding: .4rem .5rem .5rem;
     background: $gray;
   }
-
+  .d-none {
+    display: none;
+  }
+  .d-block {
+    display: block;
+  }
   p, li, tr {
     padding: 0.2rem .2rem .2rem;
     font-size: .9rem;

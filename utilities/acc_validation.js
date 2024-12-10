@@ -1,10 +1,11 @@
 require("dotenv").config();
 const utilities = require('.');
 const accModel = require('../models/acc_model');
-const {body, validationResult } = require('express-validator');
+const {body,param, validationResult } = require('express-validator');
 accValidation = {}
 const cookieParser = require('cookie-parser');
 const req = require("express/lib/request");
+const account_types = require("browser-sync/dist/lodash.custom");
 /**
  * Registration Data Validation Rules
  */
@@ -63,6 +64,16 @@ accValidation.registrationRules = () => {
     ]
 }
 
+accValidation.accountTypeRules = () => [
+    param('account_type')
+        .isIn(['client', 'employee', 'admin'])
+        .withMessage('Invalid account type. Must be client, employee, or admin.'),
+    param('account_id')
+        .isInt({ min: 1 })
+        .withMessage('Account ID must be a positive integer.')
+];
+
+
 //Stick those errors with Stickiness
 /**
  * Check Data and return errors/continue to registration
@@ -84,10 +95,6 @@ accValidation.checkRegData = async(req, res, next) => {
     next();
 }
 
-
-accValidation.checkAccountPasswordUpdate = async(req,res,next) => {
-    const {account_id, account_password} = req.body;
-}
 
 accValidation.checkAccountUpdate = async(req,res,next) => {
 
@@ -139,6 +146,18 @@ accValidation.checkAccountUpdate = async(req,res,next) => {
 
 }
 
+accValidation.checkValidAccountType = async (req, res, next) => {
+    const {account_type} = req.params
+    let errors = [];
+    errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav();
+        res.render('account/view_accounts', {
+            title: 'Manage Accounts', nav, errors
+        })
+    }
+    next();
+};
 
 accValidation.loginRules = () => {
     return [

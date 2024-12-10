@@ -96,7 +96,7 @@ async function updateAccountById(
         return data.rows
     } catch (error) {
         console.error("model error: " + error);
-        new Error('Edit Inventory Error');
+        new Error('Edit Account Error');
     }
 }
 
@@ -111,7 +111,29 @@ async function updateAccountPassById (account_id, account_password) {
         return data.rows;
     } catch (error) {
         console.error("model error: " + error);
-        new Error('Edit Inventory Error');
+        new Error('Edit Account Error');
+    }
+}
+
+async function getAccountsByType (account_type) {
+    try {
+        const data = await pool.query("SELECT * FROM public.account WHERE account_type = $1", [account_type])
+    return data.rows;
+    } catch (error) {
+        console.error('GetAccountByType DB Error:' + error);
+        throw error;
+    }
+}
+
+async function updateAccountType (account_type, account_id) {
+    try {
+        const sql =
+            "UPDATE public.account SET account_type = $1 WHERE account_id = $2 RETURNING * "
+        const data = await pool.query(sql, [account_type, account_id]);
+        return data.rows;
+    } catch (error) {
+        console.error('Update Account Type DB Error: ' + error);
+        throw error;
     }
 }
 
@@ -123,6 +145,8 @@ module.exports = {
     getAccountById,
     updateAccountById,
     updateAccountPassById,
-    checkExistingEmailForUpdate
+    checkExistingEmailForUpdate,
+    getAccountsByType,
+    updateAccountType,
 
 };

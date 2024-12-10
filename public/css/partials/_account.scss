@@ -30,3 +30,34 @@
   }
 
 }
+
+.account {
+  width: 100%;
+  &__th--pad {
+    padding-left: .8rem;
+  }
+  thead {
+    border: 1px solid $black;
+    th {
+      color: $white;
+    }
+  }
+  table {
+    width: 100%;
+  }
+  tbody {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  tr {
+    display: flex;
+    width: 100%;
+    border: 1px solid $black;
+  }
+  td, th {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
